@@ -10,7 +10,7 @@ let db
 
 app.use(bodyParser.json())
 
-MongoClient.connect(`mongodb://${process.env.DB_USER}:${process.env.DB_PASSWORD}@ds257495.mlab.com:57495/2dos`, (err, database) => {
+MongoClient.connect(process.env.MONGODB_URI, (err, database) => {
   if (err) return console.log(err)
   db = database
   app.listen(3001, () => {
