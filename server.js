@@ -13,7 +13,7 @@ app.use(bodyParser.json())
 MongoClient.connect(process.env.MONGODB_URI, (err, database) => {
   if (err) return console.log(err)
   db = database
-  app.listen(3001, () => {
+  app.listen(process.env.PORT || 3001, () => {
     console.log('listening on 3001')
   })
 })
