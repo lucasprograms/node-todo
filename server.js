@@ -8,6 +8,7 @@ const MongoClient = mongodb.MongoClient
 const ObjectId = mongodb.ObjectID;
 let db
 
+app.use(express.static(path.join(__dirname, 'client/build')));
 app.use(bodyParser.json())
 
 MongoClient.connect(process.env.MONGODB_URI, (err, database) => {
