@@ -14,9 +14,7 @@ app.use(bodyParser.json())
 MongoClient.connect(process.env.MONGODB_URI, (err, database) => {
   if (err) return console.log(err)
   db = database
-  app.listen(process.env.PORT || 3001, () => {
-    console.log('listening on 3001')
-  })
+  app.listen(process.env.PORT || 3001)
 })
 
 app.get('/todos', (req, res) => {
@@ -40,3 +38,7 @@ app.delete('/todo', (req, res) => {
     res.sendStatus(200)
   })
 })
+
+app.get('*', (req, res) => {
+  res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'))
+});
