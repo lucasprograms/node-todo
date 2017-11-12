@@ -6,6 +6,7 @@ const bodyParser = require('body-parser')
 const app = express()
 const MongoClient = mongodb.MongoClient
 const ObjectId = mongodb.ObjectID;
+const todoRoutes = require('./routes/todos.js')
 let db
 
 app.use(express.static(path.join(__dirname, 'client/build')));
@@ -38,6 +39,8 @@ app.delete('/todo', (req, res) => {
     res.sendStatus(200)
   })
 })
+
+// app.use('/', todoRoutes)
 
 app.get('*', (req, res) => {
   res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'))
