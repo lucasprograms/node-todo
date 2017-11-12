@@ -19,12 +19,11 @@ let store = createStore(
   )
 )
 
-socket.on('new todo', () => {
+socket.on('new todo', (todo) => {
   store.dispatch(fetchTodos())
 })
 
-store
-.dispatch(fetchTodos())
+store.dispatch(fetchTodos())
 
 render(
   <Provider store={store}>

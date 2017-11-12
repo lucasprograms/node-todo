@@ -17,7 +17,6 @@ app.use(bodyParser.json())
 
 io.on('connection', function(socket) {
   socket.on('new todo', (todo) => {
-    console.log('hello from server: ', todo)
     io.emit('new todo', todo)
   })
 });
