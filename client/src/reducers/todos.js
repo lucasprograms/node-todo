@@ -1,4 +1,4 @@
-import { ADD_TODO_REQUESTED, ADD_TODO_SUCCESS, REQUEST_TODOS, RECEIVE_TODOS } from '../constants/actionTypes'
+import { ADD_TODO_REQUESTED, ADD_TODO_SUCCESS, REQUEST_TODOS, RECEIVE_TODOS, TOGGLE_TODO_REQUESTED, TOGGLE_TODO_SUCCESS } from '../constants/actionTypes'
 const defaultState = {
   isFetching: false,
   isAdding: false,
