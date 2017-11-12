@@ -4,7 +4,7 @@ import { createStore, applyMiddleware } from 'redux'
 import { Provider } from 'react-redux' // eslint-disable-line
 import thunkMiddleware from 'redux-thunk'
 import { createLogger } from 'redux-logger'
-import { fetchTodos } from './actions'
+import { fetchTodos, socket } from './actions'
 import todoApp from './reducers/reducers'
 import App from './components/presenters/App' // eslint-disable-line
 import registerServiceWorker from './registerServiceWorker'
@@ -18,6 +18,10 @@ let store = createStore(
     loggerMiddleware // neat middleware that logs actions
   )
 )
+
+socket.on('new todo', () => {
+  store.dispatch(fetchTodos())
+})
 
 store
 .dispatch(fetchTodos())

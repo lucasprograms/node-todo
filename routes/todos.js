@@ -1,29 +1,24 @@
 const express = require('express')
 const router = express.Router()
+
+const todosRoutes = (db) => {
+  router.get('/', (req, res) => {
+    db.collection('todos').find().toArray((err, results) => {
+      res.send(results)
+    })
+  })
   
-router.get('/todos', (req, res) => {
-  console.log('getting todos')
-  const cursor = db.collection('todos').find().toArray((err, results) => {
-    res.send(results)
+  router.post('/', (req, res) => {
+    db.collection('todos').save(req.body, (err, results) => {
+      if (err) { res.status(500).send(err) }
+  
+      res.status(200).send(results.ops)
+    })
   })
-})
 
-router.post('/todos', (req, res) => {
-  db.collection('todos').save(req.body, (err, results) => {
-    if (err) { res.status(500).send(err) }
+  return router
+}
 
-    res.status(200).send(results.ops)
-  })
-})
-
-router.delete('/todo', (req, res) => {
-  db.collection('todos').deleteOne({ "_id": ObjectId(req.body.id) }, (err, results) => {
-    if (err) { res.status(500).send(err) }
-
-    res.sendStatus(200)
-  })
-})
-
-module.exports = router
+module.exports = todosRoutes
 
 
