@@ -3,7 +3,7 @@ import Footer from './Footer' // eslint-disable-line
 import AddTodo from '../containers/AddTodo' // eslint-disable-line
 import VisibleTodoList from '../containers/VisibleTodoList' // eslint-disable-line
 
-const App = () => (
+const App = (props) => (
   <div>
     <AddTodo />
     <VisibleTodoList />

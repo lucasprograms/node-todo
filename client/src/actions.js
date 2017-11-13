@@ -8,7 +8,7 @@ import {
   SET_VISIBILITY_FILTER,
   TOGGLE_TODO
 } from './constants/actionTypes'
-import { emitNewTodo } from './sockets'
+import socket from './sockets'
 
 export const removeTodo = (id) => ({
   type: REMOVE_TODO,
@@ -56,6 +56,10 @@ export const addTodoSuccess = (newTodo) => ({
 })
 
 export const addTodo = (todoText) => {
+  const emitTodoAddedEvent = (todo) => {
+    socket.emit('todo added remotely', todo)
+  }
+
   return function(dispatch) {
     dispatch(requestAddTodo())
 
@@ -75,7 +79,7 @@ export const addTodo = (todoText) => {
         return json[0]
       })
       .then((todo) => {
-        emitNewTodo(todo)
+        emitTodoAddedEvent(todo)
       })
   }
 }
