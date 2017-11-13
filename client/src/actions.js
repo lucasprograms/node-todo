@@ -1,4 +1,3 @@
-// import io from 'socket.io-client'
 import {
   ADD_TODO,
   ADD_TODO_SUCCESS,
@@ -9,8 +8,7 @@ import {
   SET_VISIBILITY_FILTER,
   TOGGLE_TODO
 } from './constants/actionTypes'
-
-// export const socket = io()
+import { emitNewTodo } from './sockets'
 
 export const removeTodo = (id) => ({
   type: REMOVE_TODO,
@@ -75,6 +73,9 @@ export const addTodo = (todoText) => {
       .then((json) => {
         dispatch(addTodoSuccess(json[0]))
         return json[0]
+      })
+      .then((todo) => {
+        emitNewTodo(todo)
       })
   }
 }

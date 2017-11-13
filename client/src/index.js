@@ -4,7 +4,8 @@ import { createStore, applyMiddleware } from 'redux'
 import { Provider } from 'react-redux' // eslint-disable-line
 import thunkMiddleware from 'redux-thunk'
 import { createLogger } from 'redux-logger'
-import { fetchTodos } from './actions'
+import { fetchTodos, addTodoSuccess } from './actions'
+import { clientSocketSetup } from './sockets'
 import todoApp from './reducers/reducers'
 import App from './components/presenters/App' // eslint-disable-line
 import registerServiceWorker from './registerServiceWorker'
@@ -19,10 +20,9 @@ let store = createStore(
   )
 )
 
-// socket.on('new todo', (todo) => {
-//   console.log('zones')
-//   store.dispatch(addTodoSuccess(todo))
-// })
+clientSocketSetup(
+  (todo) => { store.dispatch(addTodoSuccess(todo)) }
+)
 
 store.dispatch(fetchTodos())
 
