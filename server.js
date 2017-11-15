@@ -17,8 +17,6 @@ app.use(express.static(path.resolve(__dirname, 'client', staticDir)));
 app.use(bodyParser.json())
 
 io.on('connection', function (socket) {
-  console.log('there was a connection')
-
   socket.on('todo added remotely', (todo) => {
     socket.broadcast.emit('todo added remotely', todo)
   })

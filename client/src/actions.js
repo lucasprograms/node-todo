@@ -8,6 +8,7 @@ import {
   SET_VISIBILITY_FILTER,
   TOGGLE_TODO
 } from './constants/actionTypes'
+
 import socket from './sockets'
 
 export const removeTodo = (id) => ({
