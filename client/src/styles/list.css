@@ -1,6 +1,16 @@
 .list {
-  max-width: 300px;
+  float: left;
+  width: 300px;
   background-color: DeepSkyBlue;
-  min-height: 1200px;
   padding: 10px;
+}
+
+.list .list__add-card__prompt {
+  padding: 10px 0;
+  cursor: pointer;
+}
+
+.list .list__add-card__prompt:hover {
+  background-color: CornflowerBlue;
+  text-decoration: underline;
 }

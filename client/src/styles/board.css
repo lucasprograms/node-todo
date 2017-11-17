@@ -1,0 +1,4 @@
+.board:after {
+  clear: both;
+  content: '';
+}

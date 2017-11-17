@@ -1,26 +1,20 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { DropTarget } from 'react-dnd';
 import { connect } from 'react-redux'
 import flow from 'lodash.flow'
 import '../styles/list.css'
-import ItemTypes from '../constants/dndTypes';
-import Card from './Card'
-
-const dropTargetSpec = {
-  drop: (props, monitor, component) => {
-  }
-};
-
-const collect = connect => ({
-  connectDropTarget: connect.dropTarget(),
-});
+import CardContainer from './CardContainer'
+import AddCardComponent from './AddCardComponent'
 
 const mapStateToProps = (state) => {
   return { cards: state.cards.items }
 }
 
 class List extends Component {
+  state = {
+    showAddCardComponent: false
+  }
+
   static defaultProps = {
     cards: { items: [] }
   }
@@ -29,8 +23,19 @@ class List extends Component {
     items: PropTypes.arrayOf(PropTypes.shape({
       _id: PropTypes.string.isRequired,
       text: PropTypes.string.isRequired,
-    })),
-    connectDropTarget: PropTypes.func.isRequired,
+    }))
+  }
+
+  hideAddCardComponenet () {
+    this.setState({
+      showAddCardComponent: false
+    })
+  }
+
+  showAddCardComponent () {
+    this.setState({
+      showAddCardComponent: true
+    })
   }
 
   render() {
@@ -43,18 +48,28 @@ class List extends Component {
         return -1
       }
     }
-    
+
     return (
-      connectDropTarget(
-        <ul className="list">
-          {cards.sort(sortByOrdinalValue).map(card => <Card key={card._id} {...card} />)}
+      <div className="list">
+        <ul>
+          {cards.sort(sortByOrdinalValue).map(card => <CardContainer key={card._id} {...card} />)}
         </ul>
-      )
+        <div className="list__add-card">
+          <div className="list__add-card__prompt"
+            style={{display: this.state.showAddCardComponent ? 'none' : 'block '}}
+            onClick={() => this.showAddCardComponent()}
+          >
+            Add a card..
+          </div>
+          <div style={{display: this.state.showAddCardComponent ? 'block' : 'none' }}>
+            <AddCardComponent closeButtonClickHandler={() => this.hideAddCardComponenet()} />
+          </div>
+        </div>
+      </div>
     );
   }
 };
 
 export default flow([
   connect(mapStateToProps),
-  DropTarget(ItemTypes.CARD, dropTargetSpec, collect)
 ])(List)

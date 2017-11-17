@@ -2,6 +2,8 @@ import {
   ADD_CARD,
   ADD_CARD_SUCCESS,
   ADD_CARD_REQUESTED,
+  DELETE_CARD_REQUESTED,
+  DELETE_CARD_SUCCESS,
   REQUEST_CARDS,
   RECEIVE_CARDS,
   REMOVE_CARD,
@@ -66,9 +68,13 @@ export const updateCardSuccess = (updatedCard) => ({
   updatedCard
 })
 
-export const updateOrdinalValue = (id, updatedOrdinalValue) => ({
-  type: UPDATE_ORDINAL_VALUE_BY_ID,
-  data: { id, ordinalValue: updatedOrdinalValue }
+export const requestDeleteCard = () => ({
+  type: DELETE_CARD_REQUESTED
+})
+
+export const deleteCardSuccess = (id) => ({
+  type: DELETE_CARD_SUCCESS,
+  id
 })
 
 export const updateCard = (id, update) => {
@@ -83,9 +89,24 @@ export const updateCard = (id, update) => {
     })
     .then(res => res.json())
     .then((json) => {
-      debugger
       dispatch(updateCardSuccess(json.value));
       return json[0];
+    })
+  }
+}
+
+export const deleteCard = (id) => {
+  return function (dispatch) {
+    dispatch(requestDeleteCard())
+    fetch('/card', {
+      method: 'DELETE',
+      headers: {
+        'Content-type': 'application/json; charset=UTF-8',
+      },
+      body: JSON.stringify({ id })
+    })
+    .then(() => {
+      dispatch(deleteCardSuccess(id));
     })
   }
 }
