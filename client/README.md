@@ -973,11 +973,11 @@ For example, a production setup might look like this after the app is deployed:
 
 ```
 /             - static server returns index.html with React app
-/todos        - static server returns index.html with React app
-/api/todos    - server handles any /api/* requests using the backend implementation
+/cards        - static server returns index.html with React app
+/api/cards    - server handles any /api/* requests using the backend implementation
 ```
 
-Such setup is **not** required. However, if you **do** have a setup like this, it is convenient to write requests like `fetch('/api/todos')` without worrying about redirecting them to another host or port during development.
+Such setup is **not** required. However, if you **do** have a setup like this, it is convenient to write requests like `fetch('/api/cards')` without worrying about redirecting them to another host or port during development.
 
 To tell the development server to proxy any unknown requests to your API server in development, add a `proxy` field to your `package.json`, for example:
 
@@ -985,15 +985,15 @@ To tell the development server to proxy any unknown requests to your API server 
   "proxy": "http://localhost:4000",
 ```
 
-This way, when you `fetch('/api/todos')` in development, the development server will recognize that it’s not a static asset, and will proxy your request to `http://localhost:4000/api/todos` as a fallback. The development server will **only** attempt to send requests without `text/html` in its `Accept` header to the proxy.
+This way, when you `fetch('/api/cards')` in development, the development server will recognize that it’s not a static asset, and will proxy your request to `http://localhost:4000/api/cards` as a fallback. The development server will **only** attempt to send requests without `text/html` in its `Accept` header to the proxy.
 
 Conveniently, this avoids [CORS issues](http://stackoverflow.com/questions/21854516/understanding-ajax-cors-and-security-considerations) and error messages like this in development:
 
 ```
-Fetch API cannot load http://localhost:4000/api/todos. No 'Access-Control-Allow-Origin' header is present on the requested resource. Origin 'http://localhost:3000' is therefore not allowed access. If an opaque response serves your needs, set the request's mode to 'no-cors' to fetch the resource with CORS disabled.
+Fetch API cannot load http://localhost:4000/api/cards. No 'Access-Control-Allow-Origin' header is present on the requested resource. Origin 'http://localhost:3000' is therefore not allowed access. If an opaque response serves your needs, set the request's mode to 'no-cors' to fetch the resource with CORS disabled.
 ```
 
-Keep in mind that `proxy` only has effect in development (with `npm start`), and it is up to you to ensure that URLs like `/api/todos` point to the right thing in production. You don’t have to use the `/api` prefix. Any unrecognized request without a `text/html` accept header will be redirected to the specified `proxy`.
+Keep in mind that `proxy` only has effect in development (with `npm start`), and it is up to you to ensure that URLs like `/api/cards` point to the right thing in production. You don’t have to use the `/api` prefix. Any unrecognized request without a `text/html` accept header will be redirected to the specified `proxy`.
 
 The `proxy` option supports HTTP, HTTPS and WebSocket connections.<br>
 If the `proxy` option is **not** flexible enough for you, alternatively you can:
@@ -1508,7 +1508,7 @@ To help you make up your mind, here is a list of APIs that **need jsdom**:
 
 * Any browser globals like `window` and `document`
 * [`ReactDOM.render()`](https://facebook.github.io/react/docs/top-level-api.html#reactdom.render)
-* [`TestUtils.renderIntoDocument()`](https://facebook.github.io/react/docs/test-utils.html#renderintodocument) ([a shortcut](https://github.com/facebook/react/blob/34761cf9a252964abfaab6faf74d473ad95d1f21/src/test/ReactTestUtils.js#L83-L91) for the above)
+* [`TestUtils.renderIntoDocument()`](https://facebook.github.io/react/docs/test-utils.html#renderincardcument) ([a shortcut](https://github.com/facebook/react/blob/34761cf9a252964abfaab6faf74d473ad95d1f21/src/test/ReactTestUtils.js#L83-L91) for the above)
 * [`mount()`](http://airbnb.io/enzyme/docs/api/mount.html) in [Enzyme](http://airbnb.io/enzyme/index.html)
 
 In contrast, **jsdom is not needed** for the following APIs:
@@ -1796,13 +1796,13 @@ The choice of your server software isn’t important either. Since Create React 
 
 The `build` folder with static assets is the only output produced by Create React App.
 
-However this is not quite enough if you use client-side routing. Read the next section if you want to support URLs like `/todos/42` in your single-page app.
+However this is not quite enough if you use client-side routing. Read the next section if you want to support URLs like `/cards/42` in your single-page app.
 
 ### Serving Apps with Client-Side Routing
 
-If you use routers that use the HTML5 [`pushState` history API](https://developer.mozilla.org/en-US/docs/Web/API/History_API#Adding_and_modifying_history_entries) under the hood (for example, [React Router](https://github.com/ReactTraining/react-router) with `browserHistory`), many static file servers will fail. For example, if you used React Router with a route for `/todos/42`, the development server will respond to `localhost:3000/todos/42` properly, but an Express serving a production build as above will not.
+If you use routers that use the HTML5 [`pushState` history API](https://developer.mozilla.org/en-US/docs/Web/API/History_API#Adding_and_modifying_history_entries) under the hood (for example, [React Router](https://github.com/ReactTraining/react-router) with `browserHistory`), many static file servers will fail. For example, if you used React Router with a route for `/cards/42`, the development server will respond to `localhost:3000/cards/42` properly, but an Express serving a production build as above will not.
 
-This is because when there is a fresh page load for a `/todos/42`, the server looks for the file `build/todos/42` and does not find it. The server needs to be configured to respond to a request to `/todos/42` by serving `index.html`. For example, we can amend our Express example above to serve `index.html` for any unknown paths:
+This is because when there is a fresh page load for a `/cards/42`, the server looks for the file `build/cards/42` and does not find it. The server needs to be configured to respond to a request to `/cards/42` by serving `index.html`. For example, we can amend our Express example above to serve `index.html` for any unknown paths:
 
 ```diff
  app.use(express.static(path.join(__dirname, 'build')));
@@ -1826,11 +1826,11 @@ It will get copied to the `build` folder when you run `npm run build`.
 
 If you’re using [Apache Tomcat](http://tomcat.apache.org/), you need to follow [this Stack Overflow answer](https://stackoverflow.com/a/41249464/4878474).
 
-Now requests to `/todos/42` will be handled correctly both in development and in production.
+Now requests to `/cards/42` will be handled correctly both in development and in production.
 
 On a production build, and in a browser that supports [service workers](https://developers.google.com/web/fundamentals/getting-started/primers/service-workers),
 the service worker will automatically handle all navigation requests, like for
-`/todos/42`, by serving the cached copy of your `index.html`. This
+`/cards/42`, by serving the cached copy of your `index.html`. This
 service worker navigation routing can be configured or disabled by
 [`eject`ing](#npm-run-eject) and then modifying the
 [`navigateFallback`](https://github.com/GoogleChrome/sw-precache#navigatefallback-string)
@@ -2005,9 +2005,9 @@ You can configure a custom domain with GitHub Pages by adding a `CNAME` file to 
 
 #### Notes on client-side routing
 
-GitHub Pages doesn’t support routers that use the HTML5 `pushState` history API under the hood (for example, React Router using `browserHistory`). This is because when there is a fresh page load for a url like `http://user.github.io/todomvc/todos/42`, where `/todos/42` is a frontend route, the GitHub Pages server returns 404 because it knows nothing of `/todos/42`. If you want to add a router to a project hosted on GitHub Pages, here are a couple of solutions:
+GitHub Pages doesn’t support routers that use the HTML5 `pushState` history API under the hood (for example, React Router using `browserHistory`). This is because when there is a fresh page load for a url like `http://user.github.io/cardmvc/cards/42`, where `/cards/42` is a frontend route, the GitHub Pages server returns 404 because it knows nothing of `/cards/42`. If you want to add a router to a project hosted on GitHub Pages, here are a couple of solutions:
 
-* You could switch from using HTML5 history API to routing with hashes. If you use React Router, you can switch to `hashHistory` for this effect, but the URL will be longer and more verbose (for example, `http://user.github.io/todomvc/#/todos/42?_k=yknaj`). [Read more](https://reacttraining.com/react-router/web/api/Router) about different history implementations in React Router.
+* You could switch from using HTML5 history API to routing with hashes. If you use React Router, you can switch to `hashHistory` for this effect, but the URL will be longer and more verbose (for example, `http://user.github.io/cardmvc/#/cards/42?_k=yknaj`). [Read more](https://reacttraining.com/react-router/web/api/Router) about different history implementations in React Router.
 * Alternatively, you can use a trick to teach GitHub Pages to handle 404 by redirecting to your `index.html` page with a special redirect parameter. You would need to add a `404.html` file with the redirection code to the `build` folder before deploying your project, and you’ll need to add code handling the redirect parameter to `index.html`. You can find a detailed explanation of this technique [in this guide](https://github.com/rafrex/spa-github-pages).
 
 ### [Heroku](https://www.heroku.com/)

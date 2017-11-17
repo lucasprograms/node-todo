@@ -1,10 +1,10 @@
-import io from 'socket.io-client'
-import { connect } from 'react-redux'
+import io from 'socket.io-client';
+import { connect } from 'react-redux';
 
-const socket = io()
+const socket = io();
 
-const mapDispatchToTodoAddedEvent = () => {
-  return 
-}
+const mapDispatchToCardAddedEvent = () => {
 
-export default socket
+};
+
+export default socket;

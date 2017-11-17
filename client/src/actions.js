@@ -1,86 +1,120 @@
 import {
-  ADD_TODO,
-  ADD_TODO_SUCCESS,
-  ADD_TODO_REQUESTED,
-  REQUEST_TODOS,
-  RECEIVE_TODOS,
-  REMOVE_TODO,
+  ADD_CARD,
+  ADD_CARD_SUCCESS,
+  ADD_CARD_REQUESTED,
+  REQUEST_CARDS,
+  RECEIVE_CARDS,
+  REMOVE_CARD,
   SET_VISIBILITY_FILTER,
-  TOGGLE_TODO
-} from './constants/actionTypes'
+  TOGGLE_CARD,
+  UPDATE_CARD_REQUESTED,
+  UPDATE_CARD_SUCCESS,
+  UPDATE_ORDINAL_VALUE_BY_ID
+} from './constants/actionTypes';
 
-import socket from './sockets'
+import socket from './sockets';
 
-export const removeTodo = (id) => ({
-  type: REMOVE_TODO,
-  id
-})
+export const removeCard = id => ({
+  type: REMOVE_CARD,
+  id,
+});
 
-export const toggleTodo = (id) => ({
-  type: TOGGLE_TODO,
-  id
-})
+export const toggleCard = id => ({
+  type: TOGGLE_CARD,
+  id,
+});
 
-export const setVisibilityFilter = (filter) => ({
+export const setVisibilityFilter = filter => ({
   type: SET_VISIBILITY_FILTER,
-  filter
-})
+  filter,
+});
 
-export const requestTodos = () => ({
-  type: REQUEST_TODOS
-})
+export const requestCards = () => ({
+  type: REQUEST_CARDS,
+});
 
-export const receiveTodos = (todos) => ({
-  type: RECEIVE_TODOS,
-  todos
-})
+export const receiveCards = cards => ({
+  type: RECEIVE_CARDS,
+  cards,
+});
 
-export const fetchTodos = () => {
-  return function (dispatch) {
-    dispatch(requestTodos())
+export const fetchCards = () => function (dispatch) {
+  dispatch(requestCards());
 
-    fetch('/todos')
+  fetch('/cards')
     .then(res => res.json())
-    .then(json => {
-      dispatch(receiveTodos(json))
+    .then((json) => {
+      dispatch(receiveCards(json));
+    });
+};
+
+export const requestAddCard = () => ({
+  type: ADD_CARD_REQUESTED,
+});
+
+export const addCardSuccess = newCard => ({
+  type: ADD_CARD_SUCCESS,
+  newCard,
+});
+
+export const requestUpdateCard = () => ({
+  type: UPDATE_CARD_REQUESTED
+})
+
+export const updateCardSuccess = (updatedCard) => ({
+  type: UPDATE_CARD_SUCCESS,
+  updatedCard
+})
+
+export const updateOrdinalValue = (id, updatedOrdinalValue) => ({
+  type: UPDATE_ORDINAL_VALUE_BY_ID,
+  data: { id, ordinalValue: updatedOrdinalValue }
+})
+
+export const updateCard = (id, update) => {
+  return function (dispatch) {
+    dispatch(requestUpdateCard())
+    fetch('/card', {
+      method: 'PUT',
+      headers: {
+        'Content-type': 'application/json; charset=UTF-8',
+      },
+      body: JSON.stringify({ id, toUpdate: update })
+    })
+    .then(res => res.json())
+    .then((json) => {
+      debugger
+      dispatch(updateCardSuccess(json.value));
+      return json[0];
     })
   }
 }
 
-export const requestAddTodo = () => ({
-  type: ADD_TODO_REQUESTED
-})
+export const addCard = (cardText, nextOrdinalValue) => {
+  const emitCardAddedEvent = (card) => {
+    socket.emit('card added remotely', card);
+  };
 
-export const addTodoSuccess = (newTodo) => ({
-  type: ADD_TODO_SUCCESS,
-  newTodo
-})
+  return function (dispatch) {
+    dispatch(requestAddCard());
 
-export const addTodo = (todoText) => {
-  const emitTodoAddedEvent = (todo) => {
-    socket.emit('todo added remotely', todo)
-  }
+    const dateAdded = new Date();
+    const newCard = { text: cardText, isCompleted: false, date: dateAdded, ordinalValue: nextOrdinalValue };
 
-  return function(dispatch) {
-    dispatch(requestAddTodo())
-
-    const dateAdded = new Date()
-    const newTodo = { text: todoText, isCompleted: false, date: dateAdded }
-
-    fetch('/todos', {
+    fetch('/cards', {
       method: 'POST',
       headers: {
-        "Content-type": "application/json; charset=UTF-8"
+        'Content-type': 'application/json; charset=UTF-8',
       },
-      body: JSON.stringify(newTodo)
+      body: JSON.stringify(newCard),
     })
       .then(res => res.json())
       .then((json) => {
-        dispatch(addTodoSuccess(json[0]))
-        return json[0]
+        dispatch(addCardSuccess(json[0]));
+        return json[0];
       })
-      .then((todo) => {
-        emitTodoAddedEvent(todo)
-      })
-  }
-}
+      .then((card) => {
+        emitCardAddedEvent(card);
+      });
+  };
+};

@@ -1,5 +1,5 @@
 {
-  "name": "todos",
+  "name": "cards",
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
@@ -9,16 +9,7 @@
     "express": "^4.16.2",
     "http": "^0.0.0",
     "mongodb": "^2.2.33",
-    "mongoose": "^4.13.1",
-    "react-dnd": "^2.5.4",
-    "react-dnd-html5-backend": "^2.5.4",
-    "react-redux": "^5.0.6",
-    "redux": "^3.7.2",
-    "redux-logger": "^3.0.6",
-    "redux-thunk": "^2.2.0",
-    "socket.io": "^2.0.4",
-    "socket.io-client": "^2.0.4",
-    "styled-components": "^2.2.3"
+    "socket.io": "^2.0.4"
   },
   "devDependencies": {
     "nodemon": "^1.12.1"
