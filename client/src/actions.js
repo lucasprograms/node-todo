@@ -77,6 +77,11 @@ export const deleteCardSuccess = (id) => ({
   id
 })
 
+export const swapOrdinalValues = (ids) => ({
+  type: 'SWAP_ORDINAL_VALUES',
+  ids
+})
+
 export const updateCard = (id, update) => {
   return function (dispatch) {
     dispatch(requestUpdateCard())

@@ -1,10 +1,13 @@
 import { connect } from 'react-redux'
 import Card from './Card'
-import { deleteCard } from '../actions'
+import { deleteCard, swapOrdinalValues } from '../actions'
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
   deleteClickHandler () {
     dispatch(deleteCard(ownProps._id))
+  },
+  swapOrdinalValues (ids) {
+    dispatch(swapOrdinalValues(ids))
   }
 })
 
@@ -12,8 +15,10 @@ const mapStateToProps = (state, ownProps) => ({
   text: ownProps.text
 })
 
-export default connect(
+const connector = connect(
   mapStateToProps,
   mapDispatchToProps
-)(Card)
+)
+
+export default connector(Card)
 

@@ -54,8 +54,8 @@ class AddCardComponent extends Component {
       <div className="add-card-component">
         <form onSubmit={((e) => this.submitNewCard(e))}>
           <TextArea type="text" value={this.state.newCardText} onChange={(e) => this.updateNewCardText(e) } />
-          <button><FontAwesome name='check' size='3x' /></button>
-          <button onClick={(e) => this.handleClose(e)}><FontAwesome name='close' size='3x' /></button>
+          <button><FontAwesome name='check' size='2x' /></button>
+          <button onClick={(e) => this.handleClose(e)}><FontAwesome name='close' size='2x' /></button>
         </form>
       </div>
     )

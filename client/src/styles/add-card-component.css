@@ -10,8 +10,7 @@
 }
 
 .add-card-component button {
-  width: 75px;
-  height: 54px;
+  padding: 10px;
   background-color: #FFF;
   border: 2px solid #000;
   padding: 0;
