@@ -39,10 +39,10 @@ class List extends Component {
   }
 
   render() {
-    const { cards, children, connectDropTarget } = this.props
+    const { cards, children } = this.props
 
     const sortByOrdinalValue = (a, b) => {
-      if (a > b) {
+      if (a.ordinalValue > b.ordinalValue) {
         return 1
       } else {
         return -1
@@ -52,7 +52,9 @@ class List extends Component {
     return (
       <div className="list">
         <ul>
-          {cards.sort(sortByOrdinalValue).map(card => <CardContainer key={card._id} {...card} />)}
+          {cards
+            .sort(sortByOrdinalValue)
+            .map(card => <CardContainer key={card._id} {...card} />)}
         </ul>
         <div className="list__add-card">
           <div className="list__add-card__prompt"

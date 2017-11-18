@@ -44,6 +44,14 @@ const cards = (state = defaultState, action) => {
       return { ...state, isToggling: true };
     case TOGGLE_CARD_SUCCESS:
       return { ...state, isToggling: false };
+    case 'SWAP_ORDINAL_VALUES':
+      const relevantCards = state.items.filter(item => item._id === action.ids[0] || item._id === action.ids[1])
+      const otherCards = state.items.filter(item => item._id !== action.ids[0] && item._id !== action.ids[1])
+      const ordinalValue0 = relevantCards[0].ordinalValue
+      relevantCards[0].ordinalValue = relevantCards[1].ordinalValue
+      relevantCards[1].ordinalValue = ordinalValue0
+
+      return { ...state, items: [ ...otherCards, ...relevantCards ]}
     default:
       return state;
   }
