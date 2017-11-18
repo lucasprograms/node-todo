@@ -15,7 +15,9 @@
     "nodemon": "^1.12.1"
   },
   "scripts": {
-    "start": "nodemon server.js",
+    "start": "if-env NODE_ENV=production ?? npm run start:prod || npm run start:dev",
+    "start:dev": "nodemon server.js",
+    "start:prod": "node server.js",
     "heroku-postbuild": "cd client && yarn --production=false && yarn run build"
   }
 }
