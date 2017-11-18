@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import FontAwesome from 'react-fontawesome'
-import '../styles/card.css';
+import '../styles/card.css'
 
 import flow from 'lodash.flow'
 import { findDOMNode } from 'react-dom'
@@ -35,7 +35,7 @@ const dropSpec = {
     const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2
     const clientOffset = monitor.getClientOffset()
     const hoverClientY = clientOffset.y - hoverBoundingRect.top
-    
+
     if (dragOrdinalValue < hoverOrdinalValue && hoverClientY < hoverMiddleY) {
       return
     }
@@ -55,22 +55,22 @@ const dropCollect = (connect, monitor) => ({
 
 class Card extends Component {
   static propTypes = {
-    text: PropTypes.string.isRequired,
+    text: PropTypes.string.isRequired
   }
 
-  render() {
+  render () {
     const {
       text,
       deleteClickHandler,
       connectDragSource,
       connectDropTarget,
       isDragging
-    } = this.props;
+    } = this.props
 
     return (
       connectDragSource(
         connectDropTarget(
-          <div 
+          <div
             className="card"
             style={{ opacity: isDragging ? 0 : 1 }}
           >

@@ -1,17 +1,17 @@
-import React, { Component } from 'react';
-import List from './List';
-import { DragDropContext } from 'react-dnd';
+import React, { Component } from 'react'
+import List from './List'
+import { DragDropContext } from 'react-dnd'
 import '../styles/reset.css'
 import 'font-awesome/css/font-awesome.css'
-import HTML5Backend from 'react-dnd-html5-backend';
+import HTML5Backend from 'react-dnd-html5-backend'
 
 class App extends Component {
-  render() {
+  render () {
     return (
       <div>
         <List />
       </div>
-    );
+    )
   }
 }
 

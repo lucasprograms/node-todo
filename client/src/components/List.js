@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import flow from 'lodash.flow'
 import '../styles/list.css'
@@ -22,7 +22,7 @@ class List extends Component {
   static propTypes = {
     items: PropTypes.arrayOf(PropTypes.shape({
       _id: PropTypes.string.isRequired,
-      text: PropTypes.string.isRequired,
+      text: PropTypes.string.isRequired
     }))
   }
 
@@ -38,8 +38,8 @@ class List extends Component {
     })
   }
 
-  render() {
-    const { cards, children } = this.props
+  render () {
+    const { cards } = this.props
 
     const sortByOrdinalValue = (a, b) => {
       if (a.ordinalValue > b.ordinalValue) {
@@ -63,15 +63,15 @@ class List extends Component {
           >
             Add a card..
           </div>
-          <div style={{display: this.state.showAddCardComponent ? 'block' : 'none' }}>
+          <div style={{ display: this.state.showAddCardComponent ? 'block' : 'none' }}>
             <AddCardComponent closeButtonClickHandler={() => this.hideAddCardComponenet()} />
           </div>
         </div>
       </div>
-    );
+    )
   }
 };
 
 export default flow([
-  connect(mapStateToProps),
+  connect(mapStateToProps)
 ])(List)

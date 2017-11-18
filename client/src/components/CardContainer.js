@@ -21,4 +21,3 @@ const connector = connect(
 )
 
 export default connector(Card)
-

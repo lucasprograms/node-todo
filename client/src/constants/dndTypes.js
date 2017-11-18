@@ -1,6 +1,6 @@
 const ItemTypes = {
   CARD: 'card',
-  LIST: 'list',
-};
+  LIST: 'list'
+}
 
-export default ItemTypes;
+export default ItemTypes

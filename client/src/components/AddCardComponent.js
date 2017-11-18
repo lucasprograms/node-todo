@@ -49,7 +49,7 @@ class AddCardComponent extends Component {
     this.props.closeButtonClickHandler()
   }
 
-  render() {
+  render () {
     return (
       <div className="add-card-component">
         <form onSubmit={((e) => this.submitNewCard(e))}>

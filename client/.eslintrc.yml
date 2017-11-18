@@ -1,9 +1,15 @@
 ---
   parser: babel-eslint
-  extends: airbnb
+  extends:
+    - standard
+  plugins:
+    - react
   rules:
     react/jsx-filename-extension: 0
     react/prefer-stateless-function: 0
+    react/jsx-uses-react: 2
+    react/jsx-uses-vars: 2
+    react/react-in-jsx-scope: 2
   globals:
     fetch: false
     window: false
