@@ -1,18 +1,21 @@
 const express = require('express')
 const router = express.Router()
 
-const cardsRoutes = (db) => {
+const cardsRoutes = (db, Card) => {
   router.get('/', (req, res) => {
-    db.collection('cards').find().toArray((err, results) => {
+    db.collection('cards').find(
+      { "listId": { $eq: req.query.listId } }
+    ).toArray((err, results) => {
       res.send(results)
     })
   })
   
   router.post('/', (req, res) => {
-    db.collection('cards').save(req.body, (err, results) => {
+    const card = new Card(req.body)
+    card.save((err, card) => {
       if (err) { res.status(500).send(err) }
-  
-      res.status(200).send(results.ops)
+      
+      res.status(200).send(card)
     })
   })
 

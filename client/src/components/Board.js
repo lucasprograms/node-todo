@@ -1,20 +1,29 @@
-// import React, { Component } from 'react'
-// import PropTypes from 'prop-types'
-// import '../styles/board.css'
-// import List from './List'
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
+import '../styles/board.css'
+import List from './List'
 
-// export default class Board extends Component {
-//   static propTypes = {
-//     lists: PropTypes.array
-//   }
+const mapStateToProps = (state) => {
+  return { lists: state.lists.items }
+}
 
-//   render () {
-//     const { lists } = this.props
+class Board extends Component {
+  static propTypes = {
+    lists: PropTypes.array
+  }
 
-//     return (
-//       <div class="board">
-//         {cards.sort(sortByOrdinalValue).map(card => <Card key={card._id} {...card} />)}
-//       </div>
-//     )
-//   }
-// }
+  render () {
+    const { lists } = this.props
+
+    return (
+      <div className="board">
+        {lists.map(list => <List key={list._id} {...list} />)}
+      </div>
+    )
+  }
+}
+
+export default connect(
+  mapStateToProps
+)(Board)

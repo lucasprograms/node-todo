@@ -4,7 +4,7 @@ import { createStore, applyMiddleware } from 'redux'
 import { Provider } from 'react-redux'
 import thunkMiddleware from 'redux-thunk'
 import { createLogger } from 'redux-logger'
-import { fetchCards, addCardSuccess } from './actions'
+import { fetchCards, fetchLists, addCardSuccess } from './actions'
 import cardApp from './reducers/reducers'
 import App from './components/App'
 import registerServiceWorker from './registerServiceWorker'
@@ -20,7 +20,8 @@ const store = createStore(
   )
 )
 
-store.dispatch(fetchCards())
+// store.dispatch(fetchCards())
+store.dispatch(fetchLists())
 socket.on('card added remotely', (card) => {
   store.dispatch(addCardSuccess(card))
 })

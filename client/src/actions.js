@@ -9,7 +9,9 @@ import {
   SET_VISIBILITY_FILTER,
   TOGGLE_CARD,
   UPDATE_CARD_REQUESTED,
-  UPDATE_CARD_SUCCESS
+  UPDATE_CARD_SUCCESS,
+  REQUEST_LISTS,
+  RECEIVE_LISTS
 } from './constants/actionTypes'
 
 import socket from './sockets'
@@ -38,10 +40,32 @@ export const receiveCards = cards => ({
   cards
 })
 
-export const fetchCards = () => function (dispatch) {
+export const requestLists = () => ({
+  type: REQUEST_LISTS
+})
+
+export const receiveLists = lists => ({
+  type: RECEIVE_LISTS,
+  lists
+})
+
+export const fetchLists = () => function (dispatch) {
+  dispatch(requestLists())
+
+  fetch('/lists')
+    .then(res => res.json())
+    .then((json) => {
+      json.forEach(list => {
+        dispatch(fetchCards(list._id))
+      })
+      dispatch(receiveLists(json))
+    })
+}
+
+export const fetchCards = (listId) => function (dispatch) {
   dispatch(requestCards())
 
-  fetch('/cards')
+  fetch('/cards?listId=' + listId)
     .then(res => res.json())
     .then((json) => {
       dispatch(receiveCards(json))

@@ -41,12 +41,9 @@ class List extends Component {
   render () {
     const { cards } = this.props
 
-    const sortByOrdinalValue = (a, b) => {
-      if (a.ordinalValue > b.ordinalValue) {
-        return 1
-      } else {
-        return -1
-      }
+    const sortByOrdinalValue = (cardOne, cardTwo) => {
+      const delta = cardOne.ordinalValue - cardTwo.ordinalValue
+      return delta / Math.abs(delta)
     }
 
     return (
