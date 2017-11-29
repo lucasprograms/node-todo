@@ -38,7 +38,7 @@ const cards = (state = defaultState, action) => {
     case REQUEST_CARDS:
       return { ...state, isFetching: true }
     case RECEIVE_CARDS:
-      return { ...state, isFetching: false, items: action.cards }
+      return { ...state, isFetching: false, items: [...state.items, ...action.cards] }
     case TOGGLE_CARD_REQUESTED:
       return { ...state, isToggling: true }
     case TOGGLE_CARD_SUCCESS:

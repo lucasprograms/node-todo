@@ -6,7 +6,7 @@ import '../styles/list.css'
 import CardContainer from './CardContainer'
 import AddCardComponent from './AddCardComponent'
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state, ownProps) => {
   return { cards: state.cards.items }
 }
 
@@ -39,7 +39,7 @@ class List extends Component {
   }
 
   render () {
-    const { cards } = this.props
+    const { cards, _id } = this.props
 
     const sortByOrdinalValue = (cardOne, cardTwo) => {
       const delta = cardOne.ordinalValue - cardTwo.ordinalValue
@@ -47,9 +47,10 @@ class List extends Component {
     }
 
     return (
-      <div className="list">
+      <div className="list" >
         <ul>
           {cards
+            .filter(card => card.listId === _id)
             .sort(sortByOrdinalValue)
             .map(card => <CardContainer key={card._id} {...card} />)}
         </ul>
@@ -61,7 +62,7 @@ class List extends Component {
             Add a card..
           </div>
           <div style={{ display: this.state.showAddCardComponent ? 'block' : 'none' }}>
-            <AddCardComponent closeButtonClickHandler={() => this.hideAddCardComponenet()} />
+            <AddCardComponent closeButtonClickHandler={() => this.hideAddCardComponenet()} listId={_id} />
           </div>
         </div>
       </div>

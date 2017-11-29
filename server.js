@@ -37,13 +37,15 @@ mongooseConnection.then(function (db) {
     text: String,
     isCompleted: Boolean,
     date: Date,
+    listId: String,
     ordinalValue: Number
   })
 
   const listSchema = new mongoose.Schema({
     title: String,
     cards: Array,
-    ordinalValue: Number
+    date: Date,
+    boardId: String
   })
 
   const Card = mongoose.model('Card', cardSchema)

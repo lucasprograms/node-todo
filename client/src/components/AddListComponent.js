@@ -1,11 +1,11 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import TextAreaForm from './TextAreaForm'
-import { addCard } from '../actions'
+import { addList } from '../actions'
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
   handleSubmit (text) {
-    dispatch(addCard({text, listId: ownProps.listId}))
+    dispatch(addList({text, boardId: ownProps.boardId}))
   }
 })
 

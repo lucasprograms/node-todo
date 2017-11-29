@@ -11,7 +11,6 @@ const cardRoutes = (db, ObjectId) => {
   })
 
   router.put('/', (req, res) => {
-    console.log(req.body.toUpdate)
     db.collection('cards').findOneAndUpdate(
       { "_id": ObjectId(req.body.id) },
       { $set:

@@ -20,8 +20,8 @@ const store = createStore(
   )
 )
 
-// store.dispatch(fetchCards())
 store.dispatch(fetchLists())
+
 socket.on('card added remotely', (card) => {
   store.dispatch(addCardSuccess(card))
 })

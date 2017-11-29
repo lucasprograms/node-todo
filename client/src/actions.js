@@ -11,7 +11,9 @@ import {
   UPDATE_CARD_REQUESTED,
   UPDATE_CARD_SUCCESS,
   REQUEST_LISTS,
-  RECEIVE_LISTS
+  RECEIVE_LISTS,
+  ADD_LIST_REQUESTED,
+  ADD_LIST_SUCCESS
 } from './constants/actionTypes'
 
 import socket from './sockets'
@@ -49,16 +51,25 @@ export const receiveLists = lists => ({
   lists
 })
 
+export const requestAddList = () => ({
+  type: ADD_LIST_REQUESTED
+})
+
+export const addListSuccess = newList => ({
+  type: ADD_LIST_SUCCESS,
+  newList
+})
+
 export const fetchLists = () => function (dispatch) {
   dispatch(requestLists())
 
   fetch('/lists')
     .then(res => res.json())
-    .then((json) => {
-      json.forEach(list => {
+    .then((lists) => {
+      lists.forEach(list => {
         dispatch(fetchCards(list._id))
       })
-      dispatch(receiveLists(json))
+      dispatch(receiveLists(lists))
     })
 }
 
@@ -138,7 +149,7 @@ export const deleteCard = (id) => {
   }
 }
 
-export const addCard = (cardText, nextOrdinalValue) => {
+export const addCard = ({ text, listId }) => {
   const emitCardAddedEvent = (card) => {
     socket.emit('card added remotely', card)
   }
@@ -147,7 +158,7 @@ export const addCard = (cardText, nextOrdinalValue) => {
     dispatch(requestAddCard())
 
     const dateAdded = new Date()
-    const newCard = { text: cardText, isCompleted: false, date: dateAdded, ordinalValue: nextOrdinalValue }
+    const newCard = { text, listId, isCompleted: false, date: dateAdded, ordinalValue: 2 }
 
     fetch('/cards', {
       method: 'POST',
@@ -157,12 +168,41 @@ export const addCard = (cardText, nextOrdinalValue) => {
       body: JSON.stringify(newCard)
     })
       .then(res => res.json())
-      .then((json) => {
-        dispatch(addCardSuccess(json[0]))
-        return json[0]
+      .then((card) => {
+        dispatch(addCardSuccess(card))
+        return card
       })
       .then((card) => {
         emitCardAddedEvent(card)
+      })
+  }
+}
+
+export const addList = ({ text, boardId }) => {
+  const emitListAddedEvent = (list) => {
+    socket.emit('list added remotely', list)
+  }
+
+  return function (dispatch) {
+    dispatch(requestAddList())
+
+    const dateAdded = new Date()
+    const newList = { title: text, boardId, date: dateAdded, cards: [] }
+
+    fetch('/lists', {
+      method: 'POST',
+      headers: {
+        'Content-type': 'application/json; charset=UTF-8'
+      },
+      body: JSON.stringify(newList)
+    })
+      .then(res => res.json())
+      .then((list) => {
+        dispatch(addListSuccess(list))
+        return list
+      })
+      .then((list) => {
+        emitListAddedEvent(list)
       })
   }
 }

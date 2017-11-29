@@ -10,6 +10,7 @@ const listsRoutes = (db, List) => {
   
   router.post('/', (req, res) => {
     const list = new List(req.body)
+    console.log(list)
     list.save((err, list) => {
       if (err) { res.status(500).send(err) }
       

@@ -1,15 +1,15 @@
-.add-card-component form:after {
+.text-area-form form:after {
   display: block;
   content: '';
   clear: both;
 }
 
-.add-card-component .prompt {
+.text-area-form .prompt {
   font-size: 24px;
   font-family: sans-serif;
 }
 
-.add-card-component button {
+.text-area-form button {
   padding: 10px;
   background-color: #FFF;
   border: 2px solid #000;
@@ -18,11 +18,11 @@
   cursor: pointer;
 }
 
-.add-card-component:first-child button {
+.text-area-form:first-child button {
   margin-right: 10px;
 }
 
-.add-card-component textarea {
+.text-area-form textarea {
   width: 90%;
   min-height: 50px;
   margin-right: 25px;
@@ -35,6 +35,6 @@
   margin-bottom: 10px;
 }
 
-.add-card-component {
+.text-area-form {
   margin-bottom: 25px;
 }

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import '../styles/board.css'
 import List from './List'
+import AddListComponent from './AddListComponent'
 
 const mapStateToProps = (state) => {
   return { lists: state.lists.items }
@@ -19,6 +20,7 @@ class Board extends Component {
     return (
       <div className="board">
         {lists.map(list => <List key={list._id} {...list} />)}
+        <AddListComponent />
       </div>
     )
   }
